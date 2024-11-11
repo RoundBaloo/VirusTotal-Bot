@@ -27,12 +27,21 @@ def scan_url(url: str) -> str:
             stats = analysis_result["data"]["attributes"]["stats"]
 
             return (
-                f"🧪 <b>Результат проверки ссылки:</b>\n\n"
-                f"✅ Безопасно: {stats['harmless']}\n\n"
-                f"🤔 Подозрительно: {stats['suspicious']}\n\n"
-                f"⛔️ Вредоносно: {stats['malicious']}\n\n"
-                f"❔ Нет информации: {stats['undetected']}\n\n"
+                (
+                    f"✅ <b>Всё в порядке, ни один из антивирусов не посчитал эту ссылку подозрительной</b>\n\n"
+                    # f"✅ Безопасно: {stats['harmless']}\n\n"
+                    # f"🤔 Подозрительно: {stats['suspicious']}\n\n"
+                    # f"⛔️ Вредоносно: {stats['malicious']}\n\n"
+                )
+                if stats["suspicious"] == 0 and stats["malicious"] == 0
+                else (
+                    f"❗️<b>Не все антивирусы посчитали ссылку безопасной</b>\n\n"
+                    f"✅ Безопасно: {stats['harmless']}\n\n"
+                    f"🤔 Подозрительно: {stats['suspicious']}\n\n"
+                    f"⛔️ Вредоносно: {stats['malicious']}\n\n"
+                )
             )
+
         else:
             return f"Ошибка при получении результатов анализа: {analysis_result.get('error', 'Неизвестная ошибка')}"
     else:
@@ -48,8 +57,10 @@ async def command_start_handler(message: Message):
     )
 
 
-@router.message(F.text.regexp(r"https?://[^\s]+"))
+@router.message(F.text.regexp(r"(http[s]?://)?[^\s]+"))
 async def handle_link(message: Message):
     link = message.text
+    if not link.startswith("http://") and not link.startswith("https://"):
+        link = "http://" + link
     result = scan_url(link)
-    await message.answer(result)
+    await message.answer(result, parse_mode="HTML")

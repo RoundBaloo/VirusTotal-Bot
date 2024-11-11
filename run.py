@@ -23,9 +23,9 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    # logging.basicConfig(
-    #     level=logging.INFO, stream=sys.stdout
-    # )  # убрать перед продакшеном (логирование)
+    logging.basicConfig(
+        level=logging.INFO, stream=sys.stdout
+    )  # убрать перед продакшеном (логирование)
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
