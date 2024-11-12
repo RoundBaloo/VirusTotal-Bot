@@ -61,6 +61,13 @@ async def command_start_handler(message: Message):
 @router.message(F.text.regexp(r"(http[s]?://)?[^\s]+"))
 async def handle_link(message: Message):
     """Обработка строки-ссылки."""
-    link = message.text
-    result = scan_url(link)
+    link = message.text.strip()
+    # Проверяем, есть ли протокол в начале
+    if not link.startswith(("http://", "https://", "ftp://")):
+        # Не добавляем ничего, если нет протокола
+        result = scan_url(link)
+    else:
+        # Ссылка уже содержит протокол
+        result = scan_url(link)
+
     await message.answer(result, parse_mode="HTML")
