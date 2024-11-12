@@ -7,7 +7,7 @@ from aiogram.enums import ParseMode
 from config import TOKEN
 from app.handlers import router
 
-# All handlers should be attached to the Router (or Dispatcher)
+# все хендлеры должны быть прикреплены к роутеру/диспетчеру
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
@@ -15,10 +15,10 @@ dp = Dispatcher()
 async def main() -> None:
     dp.include_router(router)
 
-    # Initialize Bot instance with default bot properties which will be passed to all API calls
+    # инициализация бота
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-    # And the run events dispatching
+    # старт
     await dp.start_polling(bot)
 
 

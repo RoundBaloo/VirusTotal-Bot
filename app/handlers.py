@@ -10,6 +10,7 @@ VIRUSTOTAL_URL = "https://www.virustotal.com/api/v3"
 
 
 def scan_url(url: str) -> str:
+    """Сканирование ссылки."""
     headers = {"x-apikey": VIRUSTOTAL_API_KEY}
     response = requests.post(
         f"{VIRUSTOTAL_URL}/urls", headers=headers, data={"url": url}
@@ -43,24 +44,23 @@ def scan_url(url: str) -> str:
             )
 
         else:
-            return f"Ошибка при получении результатов анализа: {analysis_result.get('error', 'Неизвестная ошибка')}"
+            return f"Ошибка при получении результатов анализа: {analysis_result.get('error', 'Неизвестная ошибка')} {response.status_code}"
     else:
-        return (
-            f"Ошибка при проверке ссылки: {result.get('error', 'Неизвестная ошибка')}"
-        )
+        return f"🤖 <b>Ошибка при проверке ссылки, проверьте правильность введённой ссылки</b>"
 
 
 @router.message(CommandStart())
 async def command_start_handler(message: Message):
+    """Обработчик команды /start."""
     await message.answer(
-        f"👋 Приветствую, {message.from_user.full_name}! Отправьте ссылку для проверки."
+        f"👋 Приветствую, {message.from_user.full_name}! "
+        f"Отправьте ссылку для проверки."
     )
 
 
 @router.message(F.text.regexp(r"(http[s]?://)?[^\s]+"))
 async def handle_link(message: Message):
+    """Обработка строки-ссылки."""
     link = message.text
-    if not link.startswith("http://") and not link.startswith("https://"):
-        link = "http://" + link
     result = scan_url(link)
     await message.answer(result, parse_mode="HTML")
