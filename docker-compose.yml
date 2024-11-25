@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    environment:
+      - TOKEN=${TOKEN}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+    volumes:
+      - .:/app
+    command: python run.py
