@@ -1,14 +1,18 @@
+import os
+from dotenv import load_dotenv
 import asyncio
 import logging
 import sys
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from config import TOKEN
 from app.handlers import router
 
+# Загрузить переменные из .env
+load_dotenv()
+
 # все хендлеры должны быть прикреплены к роутеру/диспетчеру
-bot = Bot(token=TOKEN)
+TOKEN = os.getenv("TOKEN")
 dp = Dispatcher()
 
 

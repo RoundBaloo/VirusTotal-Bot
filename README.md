@@ -7,6 +7,8 @@ Telegram бот, который умеет обрабывать ссылки и 
 - python -m venv .venv
 - .venv/Scripts/activate
 - pip install -r requirements.txt
+- создайте файл .env в корне проекта, используя шаблон config_example.env
+- заполните .env своими API-ключами
 
 ## Запуск приложения локально (без Docker)
 - python run.py

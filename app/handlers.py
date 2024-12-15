@@ -1,14 +1,21 @@
+import os
+from dotenv import load_dotenv
 import requests
 import time
 from io import BytesIO
 from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message, ContentType
-from config import VIRUSTOTAL_API_KEY
 
 router = Router()
 
 VIRUSTOTAL_URL = "https://www.virustotal.com/api/v3"
+
+# Загрузить переменные из .env
+load_dotenv()
+
+# Получить ключ
+VIRUSTOTAL_API_KEY = os.getenv('VIRUSTOTAL_API_KEY')
 
 
 def scan_url(url: str) -> str:
