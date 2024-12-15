@@ -26,7 +26,7 @@ def scan_url(url: str) -> str:
     )
     result = response.json()
 
-    time.sleep(5)
+    time.sleep(10)
 
     if response.status_code == 200:
         analysis_id = result["data"]["id"]

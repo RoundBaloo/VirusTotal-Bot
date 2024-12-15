@@ -1,11 +1,12 @@
-version: '3.8'
-
 services:
   bot:
+    network_mode: host
     build: .
-    environment:
-      - TOKEN=${TOKEN}
-      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+    env_file:
+      - .env
     volumes:
       - .:/app
     command: python run.py
+    environment:
+      - TOKEN=${TOKEN}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
