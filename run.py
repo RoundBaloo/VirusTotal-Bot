@@ -11,15 +11,21 @@ from app.handlers import router
 # Загрузить переменные из .env
 load_dotenv()
 
-# все хендлеры должны быть прикреплены к роутеру/диспетчеру
+# Все хендлеры должны быть прикреплены к роутеру/диспетчеру
 TOKEN = os.getenv("TOKEN")
 dp = Dispatcher()
 
 
 async def main() -> None:
+    """
+    Основная асинхронная функция для запуска бота.
+
+    Эта функция включает роутер, инициализирует бота и запускает процесс
+    обработки событий (polling).
+    """
     dp.include_router(router)
 
-    # инициализация бота
+    # Инициализация бота
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
     # старт
@@ -27,9 +33,16 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO, stream=sys.stdout
-    )  # убрать перед продакшеном (логирование)
+    """
+    Точка входа в приложение.
+
+    Эта часть кода выполняется при запуске скрипта напрямую. Она настраивает
+    логирование и запускает основную асинхронную функцию main().
+    """
+    # Убрать перед продакшеном (логирование)
+    # logging.basicConfig(
+    #     level=logging.INFO, stream=sys.stdout
+    # )
     try:
         asyncio.run(main())
     except KeyboardInterrupt:

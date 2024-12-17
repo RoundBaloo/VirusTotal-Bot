@@ -1,12 +1,12 @@
 services:
   bot:
-    network_mode: host
-    build: .
+    network_mode: host  # Использование сетевого режима хоста
+    build: .  # Сборка образа из текущей директории
     env_file:
-      - .env
+      - .env  # Загрузка переменных окружения из файла .env
     volumes:
-      - .:/app
-    command: python run.py
+      - .:/app  # Монтирование текущей директории в контейнер
+    command: python run.py  # Команда для запуска приложения
     environment:
-      - TOKEN=${TOKEN}
-      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+      - TOKEN=${TOKEN}  # Переменная окружения для токена бота
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}  # Переменная окружения для API-ключа VirusTotal
